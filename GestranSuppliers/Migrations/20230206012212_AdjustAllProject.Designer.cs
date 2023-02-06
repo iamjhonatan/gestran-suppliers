@@ -11,9 +11,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GestranSuppliers.Migrations
 {
-    [DbContext(typeof(SupplierContext))]
-    [Migration("20230205192149_DateTimePropertiesAdded")]
-    partial class DateTimePropertiesAdded
+    [DbContext(typeof(DataContext))]
+    [Migration("20230206012212_AdjustAllProject")]
+    partial class AdjustAllProject
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -106,7 +106,7 @@ namespace GestranSuppliers.Migrations
                         .HasMaxLength(18)
                         .HasColumnType("varchar(18)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasPrecision(0)
                         .HasColumnType("datetime2");
 

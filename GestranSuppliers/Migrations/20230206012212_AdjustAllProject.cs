@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace GestranSuppliers.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstMigration : Migration
+    public partial class AdjustAllProject : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,10 +16,12 @@ namespace GestranSuppliers.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Cnpj = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "varchar(120)", maxLength: 120, nullable: false),
+                    Cnpj = table.Column<string>(type: "varchar(18)", maxLength: 18, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "varchar(18)", maxLength: 18, nullable: false),
+                    Email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -31,13 +33,13 @@ namespace GestranSuppliers.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PublicPlace = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Number = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Complement = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    State = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ZipCode = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: false),
+                    PublicPlace = table.Column<string>(type: "varchar(120)", maxLength: 120, nullable: false),
+                    Number = table.Column<string>(type: "varchar(12)", maxLength: 12, nullable: false),
+                    Complement = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false),
+                    City = table.Column<string>(type: "varchar(120)", maxLength: 120, nullable: false),
+                    State = table.Column<string>(type: "varchar(120)", maxLength: 120, nullable: false),
+                    Country = table.Column<string>(type: "varchar(120)", maxLength: 120, nullable: false),
                     SupplierId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>

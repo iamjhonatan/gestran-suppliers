@@ -1,6 +1,6 @@
-namespace GestranSuppliers.Domain;
+namespace GestranSuppliers.Application.Responses;
 
-public class Supplier
+public class CreateSupplierResponse
 {
     public Guid Id { get; set; }
     public string Name { get; set; }
@@ -8,6 +8,5 @@ public class Supplier
     public string PhoneNumber { get; set; }
     public string Email { get; set; }
     public DateTime CreatedAt { get; set; }
-    public DateTime? UpdatedAt { get; set; }
-    public ICollection<Address> Addresses { get; set; }
+    public ICollection<CreateAddressResponse> Addresses { get; set; }
 }

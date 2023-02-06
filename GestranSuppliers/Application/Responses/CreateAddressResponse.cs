@@ -1,6 +1,6 @@
-namespace GestranSuppliers.Domain;
+namespace GestranSuppliers.Application.Responses;
 
-public class Address
+public class CreateAddressResponse
 {
     public Guid Id { get; set; }
     public string ZipCode { get; set; }
@@ -10,7 +10,4 @@ public class Address
     public string City { get; set; }
     public string State { get; set; }
     public string Country { get; set; }
-
-    public Guid SupplierId { get; set; }
-    public Supplier? Supplier { get; set; }
 }
