@@ -1,4 +1,7 @@
+using System.Net;
 using AutoMapper;
+using FluentValidation;
+using GestranSuppliers.API.Validators;
 using GestranSuppliers.Application.Commands;
 using GestranSuppliers.Application.Interfaces;
 using GestranSuppliers.Application.Responses;
@@ -7,7 +10,7 @@ using MediatR;
 
 namespace GestranSuppliers.Application.CommandHandlers;
 
-public class CreateSupplierCommandHandler : IRequestHandler<CreateSupplierCommand, CreateSupplierResponse>
+public class CreateSupplierCommandHandler : IRequestHandler<CreateSupplierCommand, ResponseResult>
 {
     private readonly ISupplierRepository _supplierRepository;
     private readonly IAddressRepository _addressRepository;
@@ -20,8 +23,24 @@ public class CreateSupplierCommandHandler : IRequestHandler<CreateSupplierComman
         _mapper = mapper;
     }
 
-    public async Task<CreateSupplierResponse> Handle(CreateSupplierCommand request, CancellationToken cancellationToken)
+    public async Task<ResponseResult> Handle(CreateSupplierCommand request, CancellationToken cancellationToken)
     {
+        var supplierValidator = new CreateSupplierCommandValidator();
+        var supplierResult = await supplierValidator.ValidateAsync(request, cancellationToken);
+
+        if (supplierResult.IsValid is false)
+            return new ResponseResult(false, "Errors when validate supplier data.", HttpStatusCode.BadRequest, supplierResult.Errors);
+
+        var addressValidator = new CreateAddressCommandValidator();
+        
+        foreach (var address in request.Addresses)
+        {
+            var addressResult = await addressValidator.ValidateAsync(address, cancellationToken);
+            
+            if (addressResult.IsValid is false)
+                return new ResponseResult(false, "Errors when validate addresses data.", HttpStatusCode.BadRequest, addressResult.Errors);
+        }
+
         var supplier = new Supplier
         {
             Id = Guid.NewGuid(),
@@ -58,6 +77,6 @@ public class CreateSupplierCommandHandler : IRequestHandler<CreateSupplierComman
 
         await _supplierRepository.SaveAsync(cancellationToken);
 
-        return _mapper.Map<CreateSupplierResponse>(supplier);
+        return new ResponseResult(true, "Supplier successfully created.", HttpStatusCode.Created, supplier.Id);
     }
 }

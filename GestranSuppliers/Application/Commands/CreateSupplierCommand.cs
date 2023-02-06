@@ -3,7 +3,7 @@ using MediatR;
 
 namespace GestranSuppliers.Application.Commands;
 
-public class CreateSupplierCommand : IRequest<CreateSupplierResponse>
+public class CreateSupplierCommand : IRequest<ResponseResult>
 {
     public CreateSupplierCommand()
     { }
