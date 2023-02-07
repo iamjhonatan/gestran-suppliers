@@ -29,6 +29,15 @@ public class SuppliersController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Supplier>>> GetAllSuppliers(
+        [FromBody] GetAllSuppliersQuery query)
+    {
+        var result = await _mediator.Send(query);
+
+        return Ok(result);
+    }
+
     [HttpPost]
     public async Task<ActionResult<Supplier>> CreateSupplier(
         [FromBody] CreateSupplierCommand command)

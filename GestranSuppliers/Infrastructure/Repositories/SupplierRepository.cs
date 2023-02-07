@@ -30,9 +30,9 @@ public class SupplierRepository : ISupplierRepository
         return supplier;
     }
 
-    public Task<IEnumerable<Supplier>> GetAllSuppliersAsync(CancellationToken cancellationToken = default)
+    public IQueryable<Supplier> Get()
     {
-        throw new NotImplementedException();
+        return _dataContext.Suppliers;
     }
 
     public Supplier UpdateSupplier(Supplier supplier)
