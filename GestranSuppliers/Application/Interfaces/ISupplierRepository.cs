@@ -8,6 +8,6 @@ public interface ISupplierRepository
     Task<Supplier> GetSupplierByIdAsync(Guid id, CancellationToken cancellationToken = default);
     IQueryable<Supplier> Get();
     Supplier UpdateSupplier(Supplier supplier);
-    Task<Guid> DeleteSupplierById(Guid id);
+    void DeleteSupplierById(Supplier supplier);
     Task SaveAsync(CancellationToken cancellationToken = default);
 }

@@ -42,9 +42,9 @@ public class SupplierRepository : ISupplierRepository
         return supplier;
     }
 
-    public Task<Guid> DeleteSupplierById(Guid id)
+    public void DeleteSupplierById(Supplier supplier)
     {
-        throw new NotImplementedException();
+        _dataContext.Suppliers.Remove(supplier);
     }
 
     public async Task SaveAsync(CancellationToken cancellationToken = default)

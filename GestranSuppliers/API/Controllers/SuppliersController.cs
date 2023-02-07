@@ -30,7 +30,7 @@ public class SuppliersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Supplier>>> GetAllSuppliers(
+    public async Task<ActionResult<IEnumerable<Supplier>>> GetAllSuppliersByFilters(
         [FromBody] GetAllSuppliersQuery query)
     {
         var result = await _mediator.Send(query);
@@ -48,11 +48,23 @@ public class SuppliersController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult<Supplier>> UpdateSupplierByIdAsync(
+    public async Task<ActionResult<Supplier>> UpdateSupplierById(
         [FromBody] UpdateSupplierCommand command,
         Guid id)
     {
         var result = await _mediator.Send(command);
+
+        return Ok(result);
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<ActionResult<Supplier>> DeleteSupplierById(Guid id)
+    {
+        if (string.IsNullOrEmpty(id.ToString()))
+            return BadRequest("Invalid ID.");
+
+        var request = new DeleteSupplierByIdCommand(id);
+        var result = await _mediator.Send(request);
 
         return Ok(result);
     }
