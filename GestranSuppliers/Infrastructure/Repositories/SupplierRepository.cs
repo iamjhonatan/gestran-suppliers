@@ -1,5 +1,7 @@
 using GestranSuppliers.Application.Interfaces;
 using GestranSuppliers.Domain;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GestranSuppliers.Infrastructure.Repositories;
 
@@ -19,9 +21,13 @@ public class SupplierRepository : ISupplierRepository
         return supplier;
     }
 
-    public Task<Supplier> GetSupplierByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<Supplier> GetSupplierByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var supplier = _dataContext.Suppliers
+            .Include(x => x.Addresses)
+            .FirstOrDefault(x => x.Id == id);
+
+        return supplier;
     }
 
     public Task<IEnumerable<Supplier>> GetAllSuppliersAsync(CancellationToken cancellationToken = default)
@@ -29,9 +35,11 @@ public class SupplierRepository : ISupplierRepository
         throw new NotImplementedException();
     }
 
-    public Task<Guid> UpdateSupplier(Supplier supplier)
+    public Supplier UpdateSupplier(Supplier supplier)
     {
-        throw new NotImplementedException();
+        _dataContext.Update(supplier);
+
+        return supplier;
     }
 
     public Task<Guid> DeleteSupplierById(Guid id)

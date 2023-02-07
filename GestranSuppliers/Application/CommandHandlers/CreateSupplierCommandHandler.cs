@@ -29,7 +29,7 @@ public class CreateSupplierCommandHandler : IRequestHandler<CreateSupplierComman
         var supplierResult = await supplierValidator.ValidateAsync(request, cancellationToken);
 
         if (supplierResult.IsValid is false)
-            return new ResponseResult(false, "Errors when validate supplier data.", HttpStatusCode.BadRequest, supplierResult.Errors);
+            return new ResponseResult(false, "Error when validate supplier data.", HttpStatusCode.BadRequest, supplierResult.Errors);
 
         var addressValidator = new CreateAddressCommandValidator();
         
@@ -38,8 +38,10 @@ public class CreateSupplierCommandHandler : IRequestHandler<CreateSupplierComman
             var addressResult = await addressValidator.ValidateAsync(address, cancellationToken);
             
             if (addressResult.IsValid is false)
-                return new ResponseResult(false, "Errors when validate addresses data.", HttpStatusCode.BadRequest, addressResult.Errors);
+                return new ResponseResult(false, "Error when validate addresses data.", HttpStatusCode.BadRequest, addressResult.Errors);
         }
+        
+        // TODO: Verify is this supplier is not added on DB
 
         var supplier = new Supplier
         {

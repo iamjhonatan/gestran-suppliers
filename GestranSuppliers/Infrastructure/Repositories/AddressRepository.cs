@@ -27,9 +27,9 @@ public class AddressRepository : IAddressRepository
         return addresses;
     }
 
-    public Task<Address> GetAddressByIdAsync(Guid id)
+    public async Task<Address> GetAddressByIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        return _dataContext.Addresses.FirstOrDefault(x => x.Id == id);
     }
 
     public Task<IEnumerable<Address>> GetAllAddressAsync()
@@ -37,9 +37,11 @@ public class AddressRepository : IAddressRepository
         throw new NotImplementedException();
     }
 
-    public Task<Guid> UpdateAddressAsync(Address address)
+    public IEnumerable<Address> UpdateAddress(IEnumerable<Address> addresses)
     {
-        throw new NotImplementedException();
+        _dataContext.UpdateRange(addresses);
+
+        return addresses;
     }
 
     public Task<Guid> DeleteAddressById(Guid id)
